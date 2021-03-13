@@ -3,20 +3,18 @@ mongoose.connect(`mongodb://localhost:27017/Admin`, {useNewUrlParser: true, useU
 
 class mongoClient {
     constructor (collection, schema) {
-        this.collection = collection;
-        this.schema = schema;
+        this.model = mogoose.model(collection, schema);
     }
     async findOne(obj) {
         const Schema = mongoose.model(this.collection, this.schema);
         var result;
-        await Schema.findOne(obj)
+        await this.model.findOne(obj)
             .then(res => {result = res});
         return result;
     }
     async find(obj) {
-        const Schema = mongoose.model(this.collection, this.schema);
         var result;
-        await Schema.find(obj)
+        await this.model.find(obj)
             .then(res => {result = res});
         return result;
     }
@@ -27,9 +25,8 @@ class mongoClient {
         return result;
     }
     async updateOne(find, edit) {
-        const Schema = mongoose.model(this.collection, this.schema);
         var result;
-        await Schema.updateOne(find, edit)
+        await this.model.updateOne(find, edit)
             .then(res => {result = res});
         return result;
     }
